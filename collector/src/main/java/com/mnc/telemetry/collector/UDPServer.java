@@ -1,5 +1,8 @@
 package com.mnc.telemetry.collector;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
@@ -10,6 +13,8 @@ import java.util.concurrent.Executors;
 import java.util.function.Supplier;
 
 public class UDPServer extends Thread {
+
+	private static Logger logger = LoggerFactory.getLogger(UDPServer.class);
 
 	private int port;
 	private PacketConsumerFactory taskFactory;
@@ -26,6 +31,7 @@ public class UDPServer extends Thread {
 	}
 
 	public void terminate() {
+		logger.info("UDP-Server terminated");
 		this.running = false;
 		this.interrupt();
 		this.socket.close();
@@ -33,6 +39,7 @@ public class UDPServer extends Thread {
 	}
 
 	public void run() {
+		logger.info("UDP-Server Listening on port {}", port);
 		running = true;
 		try {
 			socket = new DatagramSocket(port);
@@ -41,6 +48,7 @@ public class UDPServer extends Thread {
 				socket.receive(receivedPacket);
 
 				String receivedData = new String(receivedPacket.getData(), receivedPacket.getOffset(), receivedPacket.getLength());
+				receivedData = receivedData.trim();
 
 				executor.execute(new ExecutableTask(
 						socket,
@@ -71,9 +79,10 @@ public class UDPServer extends Thread {
 
 		@Override
 		public void run() {
+			logger.info("UDP-Server: {}", receivedData);
 			Optional<String> response = consumer.get();
+			logger.info("UDP-Server: {} -> {} ({})", receivedData, response.orElse("No-Response"), socketAddress);
 			if (response.isPresent()) {
-//				System.out.printf("Server: <%s> -> <%s> (%s)\n", receivedData, response.get(), socketAddress);
 				byte[] responseData = response.get().getBytes();
 				DatagramPacket responsePacket = new DatagramPacket(responseData, 0, responseData.length, socketAddress);
 				try {
