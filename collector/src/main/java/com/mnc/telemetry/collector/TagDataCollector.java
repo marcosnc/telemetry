@@ -15,13 +15,11 @@ public class TagDataCollector {
 	private ConcurrentMap<String, List<SensorData>> tagsData = new ConcurrentHashMap<>();
 
 	public void storeData(String tag, SensorData sensorData) {
-		List<SensorData> tagData = getTagData(tag);
-		tagData.add(sensorData);
-		tagsData.putIfAbsent(tag, tagData);
+		getTagData(tag).add(sensorData);
 	}
 
 	public List<SensorData> getTagData(String tag) {
-		return tagsData.getOrDefault(tag, new LinkedList<>());
+		return tagsData.computeIfAbsent(tag, p -> new LinkedList<>());
 	}
 
 	public Map<String, List<SensorData>> getAllSensorData() {
