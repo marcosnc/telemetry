@@ -34,7 +34,7 @@ class Point {
 	}
 
 	public double modulus() {
-		return Math.sqrt(x*x + x*y);
+		return Math.sqrt(x*x + y*y);
 	}
 
 	public double distance(Point p) {
@@ -42,5 +42,10 @@ class Point {
 		double distanceY = y - p.y;
 
 		return Math.sqrt(distanceX*distanceX + distanceY*distanceY);
+	}
+
+	@Override
+	public String toString() {
+		return "Point (x=" + x + ", y=" + y + ")";
 	}
 }

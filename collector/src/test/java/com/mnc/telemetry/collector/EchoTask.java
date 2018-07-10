@@ -1,3 +1,5 @@
+package com.mnc.telemetry.collector;
+
 import java.util.Optional;
 import java.util.function.Supplier;
 

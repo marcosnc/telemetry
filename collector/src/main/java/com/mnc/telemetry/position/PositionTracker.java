@@ -26,6 +26,7 @@ public class PositionTracker {
 
 	public Map<String, Point> getPositions() {
 		return tagPositions.entrySet().stream()
+				.filter(entry -> entry.getValue().getPosition()!=null)
 				.collect(Collectors.toMap(
 						Map.Entry::getKey,
 						e -> e.getValue().getPosition()));
@@ -96,6 +97,14 @@ public class PositionTracker {
 		}
 
 		private Intersection intersection(Point p0, double r0, Point p1, double r1) {
+			if (r0 < r1) {
+				Point pAux = p0;
+				p0 = p1;
+				p1 = pAux;
+				double rAux = r0;
+				r0 = r1;
+				r1 = rAux;
+			}
 			double d = p1.substract(p0).modulus();
 
 			if (d > r0+r1 || d < Math.abs(r0-r1)) {
@@ -109,8 +118,8 @@ public class PositionTracker {
 
 			double h = Math.sqrt(r0*r0 - a*a);
 
-			double xAux = (h * (p1.getX()-p0.getX())) / d;
-			double yAux = (h * (p1.getY()-p0.getY())) / d;
+			double xAux = (h * (p1.getY()-p0.getY())) / d;
+			double yAux = (h * (p1.getX()-p0.getX())) / d;
 
 			Point p3a = new Point(p2.getX() + xAux, p2.getY() - yAux);
 			Point p3b = new Point(p2.getX() - xAux, p2.getY() + yAux);

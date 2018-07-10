@@ -1,4 +1,5 @@
-import com.mnc.telemetry.collector.UDPServer;
+package com.mnc.telemetry.collector;
+
 import org.junit.Assert;
 import org.junit.Test;
 
