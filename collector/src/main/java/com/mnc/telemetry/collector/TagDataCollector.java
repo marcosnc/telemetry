@@ -8,11 +8,17 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
+import java.util.stream.Collectors;
 
 @Component
-public class TagDataCollector {
+public class TagDataCollector implements TagDataConsumer {
 
 	private ConcurrentMap<String, List<SensorData>> tagsData = new ConcurrentHashMap<>();
+
+	@Override
+	public void consumeData(String tag, SensorData sensorData) {
+		storeData(tag, sensorData);
+	}
 
 	public void storeData(String tag, SensorData sensorData) {
 		getTagData(tag).add(sensorData);
@@ -25,4 +31,12 @@ public class TagDataCollector {
 	public Map<String, List<SensorData>> getAllSensorData() {
 		return new HashMap<>(tagsData);
 	}
+
+	public Map<String, SensorData> getLastSensorsData() {
+		return tagsData.entrySet().stream()
+				.collect(Collectors.toMap(
+						Map.Entry::getKey,
+						e -> e.getValue().get(e.getValue().size()-1)));
+	}
+
 }

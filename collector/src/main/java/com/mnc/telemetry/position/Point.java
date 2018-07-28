@@ -1,6 +1,6 @@
 package com.mnc.telemetry.position;
 
-class Point {
+public class Point {
 	private final double x;
 	private final double y;
 

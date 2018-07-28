@@ -18,13 +18,13 @@ public class PositioningSensorConsumerFactory extends NonResponsePacketConsumerF
 	private static final int TAG_GROUP = 2;
 	private static final int DISTANCE_GROUP = 3;
 
-	private static final Pattern PACKET_PATTERN = Pattern.compile("Faro ([0-9]{1,2}), Tag ([0-9]{1,2}), ([0-9]{0,5})");
+	private static final Pattern PACKET_PATTERN = Pattern.compile("Faro ([0-9]{1,2}) Tag ID: ([0-9]{1,2}) Distancia: ([0-9\\.]{0,5})m");
 
-	private final TagDataCollector tagDataCollector;
+	private final TagDataConsumer tagDataConsumer;
 
 	@Autowired
-	public PositioningSensorConsumerFactory(TagDataCollector tagDataCollector) {
-		this.tagDataCollector = tagDataCollector;
+	public PositioningSensorConsumerFactory(TagDataConsumer tagDataConsumer) {
+		this.tagDataConsumer = tagDataConsumer;
 	}
 
 	@Override
@@ -37,8 +37,8 @@ public class PositioningSensorConsumerFactory extends NonResponsePacketConsumerF
 				final String tag      = matcher.group(TAG_GROUP);
 				final String distance = matcher.group(DISTANCE_GROUP);
 				SensorData sensorData = new SensorData(receivedTime, sensor, distance);
-				tagDataCollector.storeData(tag, sensorData);
-				logger.info("Data stored: {} -> {}", tag, sensorData);
+				tagDataConsumer.consumeData(tag, sensorData);
+				logger.debug("Data stored: {} -> {}", tag, sensorData);
 			} else {
 				logger.warn("Input does not match expected format: {}", data);
 			}

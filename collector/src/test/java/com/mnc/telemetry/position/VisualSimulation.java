@@ -41,6 +41,8 @@ public class VisualSimulation extends Canvas {
 			.put("sensor-3", new Point(15,16))
 			.build();
 	private GameField gameField = new GameField(bottomLeftCorner, topRightCorner, sensorPositions);
+	private PositionTracker positionTracker = new PositionTracker(sensorPositions);
+
 	private GameSimulation gameSimulation = new GameSimulation(gameField, 10);
 
 	private int xMargin = 20;
@@ -50,7 +52,6 @@ public class VisualSimulation extends Canvas {
 	private double gameFieldXSize = topRightmost.getX() - bottomLeftmost.getX();
 	private double gameFieldYSize = topRightmost.getY() - bottomLeftmost.getY();
 
-	private PositionTracker positionTracker = new PositionTracker(sensorPositions);
 	private Random random = new Random();
 
 	public VisualSimulation() throws HeadlessException {

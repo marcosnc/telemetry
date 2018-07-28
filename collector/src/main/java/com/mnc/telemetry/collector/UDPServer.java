@@ -79,9 +79,9 @@ public class UDPServer extends Thread {
 
 		@Override
 		public void run() {
-			logger.info("UDP-Server: {}", receivedData);
+			logger.debug("UDP-Server: {}", receivedData);
 			Optional<String> response = consumer.get();
-			logger.info("UDP-Server: {} -> {} ({})", receivedData, response.orElse("No-Response"), socketAddress);
+			logger.debug("UDP-Server: {} -> {} ({})", receivedData, response.orElse("No-Response"), socketAddress);
 			if (response.isPresent()) {
 				byte[] responseData = response.get().getBytes();
 				DatagramPacket responsePacket = new DatagramPacket(responseData, 0, responseData.length, socketAddress);

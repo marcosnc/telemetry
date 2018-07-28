@@ -6,7 +6,7 @@ import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.util.Optional;
 
-class UDPClient {
+public class UDPClient {
 	private DatagramSocket socket;
 	private InetAddress address;
 
@@ -14,19 +14,23 @@ class UDPClient {
 	private int port;
 	private boolean waitForResponse;
 
-	UDPClient(int port, boolean waitForResponse) {
+	public UDPClient(int port, boolean waitForResponse) {
+		this("localhost", port, waitForResponse);
+	}
+
+	public UDPClient(String addressName, int port, boolean waitForResponse) {
 		this.port = port;
 		this.waitForResponse = waitForResponse;
 
 		try {
 			socket = new DatagramSocket();
-			address = InetAddress.getByName("localhost");
+			address = InetAddress.getByName(addressName);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
 
-	synchronized Optional<String> send(String msg) throws IOException {
+	public synchronized Optional<String> send(String msg) throws IOException {
 		byte[] dataToSend = msg.getBytes();
 		socket.send(new DatagramPacket(dataToSend, dataToSend.length, address, port));
 		if (waitForResponse) {
@@ -37,7 +41,7 @@ class UDPClient {
 		return Optional.empty();
 	}
 
-	void close() {
+	public void close() {
 		socket.close();
 	}
 }
