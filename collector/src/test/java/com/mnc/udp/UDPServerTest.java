@@ -1,4 +1,4 @@
-package com.mnc.telemetry.collector;
+package com.mnc.udp;
 
 import org.junit.Assert;
 import org.junit.Test;

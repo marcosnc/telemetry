@@ -1,4 +1,6 @@
-package com.mnc.telemetry.collector;
+package com.mnc.udp;
+
+import com.mnc.udp.PacketConsumerFactory;
 
 import java.util.Optional;
 import java.util.function.Consumer;

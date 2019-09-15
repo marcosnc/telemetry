@@ -1,5 +1,6 @@
 package com.mnc.telemetry.collector;
 
+import com.mnc.udp.UDPServer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

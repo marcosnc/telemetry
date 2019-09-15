@@ -3,8 +3,8 @@ package com.mnc.telemetry;
 import com.google.common.collect.ImmutableMap;
 import com.mnc.telemetry.collector.PositioningSensorConsumerFactory;
 import com.mnc.telemetry.collector.TagDataConsumer;
-import com.mnc.telemetry.collector.UDPClient;
-import com.mnc.telemetry.collector.UDPServer;
+import com.mnc.udp.UDPClient;
+import com.mnc.udp.UDPServer;
 import com.mnc.telemetry.position.Point;
 import com.mnc.telemetry.position.PositionTracker;
 

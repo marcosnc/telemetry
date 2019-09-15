@@ -1,4 +1,4 @@
-package com.mnc.telemetry.collector;
+package com.mnc.udp;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
